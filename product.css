@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.article__card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.article__card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.article__card p {
+    margin: 10px 0;
+}
+
+.article__card strong {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}

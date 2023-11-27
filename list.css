@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.list__title {
+    padding: 25px 0;
+    text-align: center;
+    color: #fff;
+    background-color: #000;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 600px;
+}
+
+.article__card {
+    margin: 25px 0;
+    padding: 20px;
+    display: flex;
+    gap: 50px;
+    border-radius: 20px;
+    background-color: #000;
+    transition: 0.3s ease-in-out;
+}
+
+.article__card:hover {
+    scale: 1.07;
+}
+
+/* .form__link {
+    text-align: center;
+    color: red;
+} */
