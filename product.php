@@ -152,6 +152,17 @@ h2 {
     /* opacity: .5; */
 }
 
+.list-reset {
+    margin: 10px 0;
+    padding: 0;
+    text-indent: 0;
+    list-style-type: none;
+}
+
+.article__description {
+    max-width: fit-content;
+    word-wrap: break-word;
+    }
     </style>
     <?php
     // Получаем идентификатор машины из URL
@@ -182,6 +193,20 @@ h2 {
             echo "<p><strong>Марка:</strong> " . $row["marka"] . "</p>";
             echo "<p><strong>Модель:</strong> " . $row["model"] . "</p>";
             echo "<p><strong>Цвет:</strong> " . $row["color"] . "</p>";
+
+        // Вывод специальных отметок (чекбоксов) если хотя бы одна отметка true
+        if ($row["document"] == 1 || $row["repair"] == 1) {
+            echo "<p><strong>Специальные отметки:</strong></p>";
+            echo "<ul class='list-reset'>";
+            if ($row["document"] == 1) {
+                echo "<li>Документы с проблемами или отсутствуют</li>";
+            }
+            if ($row["repair"] == 1) {
+                echo "<li>Требуется ремонт или не на ходу</li>";
+            }
+            echo "</ul>";
+        }
+
             echo "<p><strong>Цена:</strong> " . number_format($row["price"], 0, '', ' ') . " ₽</p>";
 
             echo "<div class='article__link'>";
@@ -191,9 +216,15 @@ h2 {
             echo "</div>";
             echo "</div>";
 
-
+            
     
             echo "</article>";
+
+            echo "<div class='article__description'>";
+            echo "<strong>Описание:</strong>";
+            echo "<p class='article__description-text'>" . $row["description"] . "</p>";
+            echo "</div>";
+
             echo "</div>";
         }
     } else {
