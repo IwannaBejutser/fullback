@@ -1,6 +1,4 @@
 <?php
-
-// Подключение БД
 $servername = "127.0.0.1:3306";
 $username = "root";
 $password = "";
@@ -8,14 +6,11 @@ $dbname = "List";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Проверка соединения
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Обработка данных из формы
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Информация о продавце
     $name = isset($_POST["name"]) ? $_POST["name"] : "";
     $telephone = isset($_POST["telephone"]) ? $_POST["telephone"] : "";
     $mail = isset($_POST["mail"]) ? $_POST["mail"] : "";
@@ -24,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $marka = isset($_POST["marka"]) ? $_POST["marka"] : "";
     $model = isset($_POST["model"]) ? $_POST["model"] : "";
 
-    // Используйте правильные имена для цветов, соответствующие вашим radio-кнопкам
     $color = isset($_POST["red"]) ? $_POST["red"] :
              (isset($_POST["blue"]) ? $_POST["blue"] :
              (isset($_POST["black"]) ? $_POST["black"] :
@@ -36,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = isset($_POST["description"]) ? $_POST["description"] : "";
     $photos = isset($_FILES["photos"]) ? $_FILES["photos"] : "";
 
-    // Обработка фотографий
     if (!empty($photos)) {
         $target_dir = "uploads/";
         $uploaded_photos = [];
@@ -49,34 +42,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $photos_str = implode(",", $uploaded_photos);
 
-    // Обработка специальных отметок (чекбоксов)
     $document = isset($_POST["document"]) ? 1 : 0;
     $repair = isset($_POST["repair"]) ? 1 : 0;
 
-    // Проверка на уникальность номера телефона и почты
     $check_duplicate_sql = "SELECT * FROM Info WHERE telephone = '$telephone' OR mail = '$mail'";
     $result_duplicate = $conn->query($check_duplicate_sql);
 
     if ($result_duplicate->num_rows > 0) {
-        // Вывод модального окна с ошибкой
         echo '<script>alert("Номер телефона или почта уже используются!");</script>';
     } else {
-        // Вставка данных в базу данных с учетом выбранного цвета
         $sql = "INSERT INTO Info (name, price, marka, model, color, mail, telephone, city, photos, document, repair, description) 
         VALUES ('$name', '$price', '$marka', '$model', '$color', '$mail', '$telephone', '$city', '$photos_str', $document, $repair, '$description')";
 
         if ($conn->query($sql) === TRUE) {
-            // Успешно добавлено
             header("Location: list.php");
             exit();
         } else {
-            // Ошибка добавления
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
 
-// Закрытие соединения с базой данных
 $conn->close();
 
 ?>
@@ -85,7 +71,6 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Форма</title>
     <script src="./script.js"></script>
 </head>
@@ -174,7 +159,7 @@ $conn->close();
             gap: 20px;
         }
 
-        label > input { /* HIDE RADIO */
+        label > input {
             visibility: hidden;
             position: absolute;
         }
@@ -210,12 +195,11 @@ $conn->close();
     <div class="container">
         <h2>Форма продажи автомобиля</h2>
         <form action="/" method="post" enctype="multipart/form-data">
-            <!-- Информация о продавце -->
             <label for="name">Имя и фамилия:</label>
             <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
 
             <label for="telephone">Контактный номер телефона:</label>
-            <input type="tel" id="telephone" name="telephone" placeholder="+7 913 012 00 64" pattern="[0-9]{1,}" required>
+            <input type="tel" id="telephone" name="telephone" placeholder="+7 (___) ___ __ __" pattern="[+0-9() -]{1,}" required>
 
             <label for="email">Адрес электронной почты:</label>
             <input type="email" id="email" name="mail" placeholder="sdfgsdf@mail.ru" required>
@@ -547,7 +531,6 @@ $conn->close();
                 <option value="Ярославль">Ярославль</option>
             </datalist>
 
-            <!-- Характеристики автомобиля -->
             <label for="marka">Марка автомобиля</label>
             <input type="text" id="marka" name="marka" placeholder="Audi" required>
 
@@ -622,14 +605,12 @@ $conn->close();
             <label for="green"></label>
             </div> -->
 
-            <!-- Фотографии -->
             <label for="photos">Фотографии автомобиля</label>
             <input type="file" id="photos" name="photos[]" accept="image/*">
 
             <input type="checkbox" id="agreement" name="agreement" required>
             <label for="agreement">Я подтверждаю согласие с правилами размещения объявлений.</label>
 
-            <!-- Кнопка отправки формы -->
             <button class="button__submit" type="submit">Опубликовать объявление</button>
         </form>
         <a href="./list.php" class="list__link">Перейти к списку объявлений</a>
